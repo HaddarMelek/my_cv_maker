@@ -1,5 +1,5 @@
 # Use an official PHP image as a base
-FROM php:8.1-fpm
+FROM php:8.1-cli
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git && \
@@ -22,7 +22,7 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN composer install --no-dev --optimize-autoloader --prefer-dist
 
 # Expose the port that the application will run on
-EXPOSE 9000
+EXPOSE 8000
 
-# Start the PHP server
-CMD ["php-fpm"]
+# Start Laravel's built-in server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
